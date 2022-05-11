@@ -30,12 +30,16 @@ class Book extends Phaser.Scene {
             {
                 'name': 'cover',
                 'initial': true,
+                'content1': '',
+                'content2': '',
                 'events': {
                     'open': 'page1-2'
                 }
             },
             {
                 'name': 'page1-2',
+                'content1': 'TEXT HERE FOR PAGE 1',
+                'content2': 'TEXT HERE FOR PAGE 2',
                 'events': {
                     'forward': 'page3-4',
                     'close': 'cover'
@@ -43,6 +47,9 @@ class Book extends Phaser.Scene {
             },
             {
                 'name': 'page3-4',
+                'content1': 'TEXT HERE FOR PAGE 3 . . .' +
+                ' WITH MOAR TEXT... huzzah!',
+                'content2': 'TEXT HERE FOR PAGE 4 is just gonna ramble on for a bit in this long string where i doesnt really stop and it just keeps on going and going and well here we are',
                 'events': {
                     'back': 'page1-2',
                     'close': 'cover'
@@ -51,7 +58,7 @@ class Book extends Phaser.Scene {
         ];
 
         // define transition time
-        this.transitionTime = 750;
+        this.transitionTime = 500;
 
         // create state machine on book object, passes JSON states object & target object
         this.book.bookFSM = new StateMachine(this.bookStates, this.book);
@@ -61,6 +68,8 @@ class Book extends Phaser.Scene {
 
         // display info text
         this.statusText = this.add.text(75, 475, `State: ${this.book.bookFSM.getState().name}`);
+        this.content1Text = this.add.text(410, 210, `${this.book.bookFSM.getState().content1}`, textConfig);
+        this.content2Text = this.add.text(690, 210, `${this.book.bookFSM.getState().content2}`, textConfig);
         this.transitionText = this.add.text(75, 500, ``);
         this.syncDisplayInfo();
 
@@ -98,6 +107,8 @@ class Book extends Phaser.Scene {
         let options = Object.keys(this.book.bookFSM.currentState.events).map((k,i) => `(${i+1}) ${k}`);
         this.transitionText.text = `Actions: ${options.join(' ')}`;
         this.statusText.text = `State: ${this.book.bookFSM.currentState.name}`;
+        this.content1Text.text = `${this.book.bookFSM.currentState.content1}`;
+        this.content2Text.text = `${this.book.bookFSM.currentState.content2}`;
     }
 
     update() {

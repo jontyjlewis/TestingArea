@@ -10,9 +10,12 @@ let config = {
 let textConfig = {
     // fontFamily: 'Bahnschrift Light',
     fontFamily: 'Century Gothic',
-    fontSize: '28px',
+    fontSize: '14px',
     color: '#FFFFFF',
-    align: 'left'
+    align: 'left',
+    wordWrap: {
+        width: 200
+    }
 }
 
 let game = new Phaser.Game(config);
